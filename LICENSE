@@ -1,0 +1,123 @@
+CYBER-THREAT-MONITOR SOURCE-AVAILABLE LICENSE
+Version 1.0 — September 2026
+
+Copyright (c) 2026 Hemanth Kadiyala
+
+1. COPYRIGHT AND OWNERSHIP
+
+The Cyber-Threat-Monitor software, source code, documentation, configuration,
+and other original materials covered by this license are the intellectual
+property of Hemanth Kadiyala ("Licensor"), except for third-party materials
+that are separately identified and licensed by their respective owners.
+
+This license does not transfer ownership of the Software to any other person
+or organization.
+
+2. PERMITTED USE
+
+Subject to the terms of this license, the Licensor grants you a limited,
+non-exclusive, worldwide, royalty-free license to:
+
+a. view and study the source code;
+b. run the Software for personal, educational, academic, or non-commercial
+   research purposes;
+c. modify the Software for personal, educational, academic, or non-commercial
+   research purposes; and
+d. create private derivative works for the purposes described above.
+
+3. RESTRICTIONS
+
+Without prior written permission from the Licensor, you may not:
+
+a. use the Software or a derivative work for commercial purposes;
+b. sell, license, sublicense, rent, lease, or otherwise commercially exploit
+   the Software or a derivative work;
+c. redistribute the Software or substantial portions of its source code as a
+   separate software product or repository;
+d. publish a modified version as a competing or replacement product;
+e. remove, alter, or conceal copyright notices or this license;
+f. represent that you are the original author or owner of the Software;
+g. use the Licensor's name, identity, project name, trademarks, logos, or
+   branding to imply sponsorship, affiliation, or endorsement without prior
+   written permission; or
+h. use the Software in a manner that violates applicable law.
+
+4. ATTRIBUTION
+
+Any permitted copy or substantial portion of the Software must retain this
+license and the original copyright notice.
+
+Educational or research publications that materially rely upon the Software
+should provide reasonable attribution to:
+
+Hemanth Kadiyala
+Cyber-Threat-Monitor
+
+5. SECURITY RESEARCH
+
+Nothing in this license authorizes unauthorized access to computer systems,
+networks, accounts, devices, data, or services.
+
+The Software may be used for lawful security education, defensive research,
+authorized testing, and controlled laboratory environments.
+
+You are solely responsible for ensuring that your use complies with all
+applicable laws, regulations, contracts, and authorization requirements.
+
+6. THIRD-PARTY MATERIALS
+
+This license applies only to materials owned by the Licensor.
+
+Third-party libraries, frameworks, dependencies, icons, fonts, datasets,
+documentation, and other materials remain subject to their respective
+licenses and terms.
+
+Nothing in this license grants rights to third-party materials beyond the
+rights provided by their respective licenses.
+
+7. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, ACCURACY,
+SECURITY, OR RELIABILITY.
+
+THE LICENSOR DOES NOT WARRANT THAT THE SOFTWARE WILL OPERATE WITHOUT
+INTERRUPTION, ERROR, VULNERABILITY, OR SECURITY DEFECT.
+
+8. LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSOR SHALL NOT
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL,
+EXEMPLARY, OR OTHER DAMAGES ARISING FROM OR RELATING TO THE SOFTWARE OR
+ITS USE.
+
+9. TERMINATION
+
+Any rights granted under this license terminate automatically if you
+materially violate its terms.
+
+Upon termination, you must stop using, distributing, or commercially
+exploiting the Software to the extent required by applicable law.
+
+10. WRITTEN PERMISSION
+
+The Licensor may grant additional permissions or commercial rights through
+a separate written agreement.
+
+Requests for commercial licensing, redistribution rights, or other
+permissions should be directed to the project owner through the official
+contact information provided in the repository.
+
+11. ENTIRE LICENSE
+
+This license constitutes the terms governing the use of the Licensor-owned
+materials covered by it.
+
+If any provision is determined to be unenforceable, the remaining provisions
+shall remain in effect to the maximum extent permitted by applicable law.
+
+12. NO IMPLIED RIGHTS
+
+Except for the permissions expressly granted by this license, no other
+rights are granted, whether by implication, estoppel, or otherwise.

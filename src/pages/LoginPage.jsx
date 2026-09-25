@@ -5,8 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import CyberBackground from "../components/ui/CyberBackground";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("analyst@soc.local");
-  const [password, setPassword] = useState("password123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();

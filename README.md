@@ -1,275 +1,302 @@
-# 🛡️ CyberSentinel SIEM Dashboard
+# Cyber-Threat-Monitor
 
-A cutting-edge **Security Operations Center (SOC) dashboard** for real-time cyber threat monitoring, incident response, and security intelligence. Built with React, Vite, and modern web technologies for lightning-fast performance and an immersive cyberpunk interface.
+Security monitoring and detection engineering platform built with React, Vite, FastAPI, and Python.
 
-## ✨ Key Features
+> **Current milestone: v0.5.0 — Security Monitoring & Detection Foundation**
 
-🎨 **Modern Cyberpunk UI**
+Cyber-Threat-Monitor is being developed as a practical security engineering project focused on the path from security events to detections, alerts, incidents, and analyst investigation workflows.
 
-- Neon cyan/purple color scheme with glassmorphism panels
-- Real-time animated threat visualization
-- Responsive design (mobile, tablet, desktop)
-- Dark/light theme toggle
+The current release establishes the backend detection foundation. Real telemetry ingestion, persistent storage, and production-backed SOC dashboard metrics are planned for the next development phase.
 
-📊 **Real-Time Threat Dashboard**
-
-- Live alert streaming (8-second refresh rate)
-- Threat volume analytics with interactive charts
-- Attack flow visualization across network layers
-- Critical incident highlights with MTTR tracking
-
-🔐 **SOC Command Interface**
-
-- Multi-module platform with dedicated pages for:
-  - Alerts management (severity-based filtering)
-  - Threat intelligence (IOC tracking, CVE monitoring)
-  - Incident response coordination
-  - Asset inventory and posture
-  - Log source management
-  - Team settings and configuration
-- Session-based authentication
-- Role-ready user management UI
-
-⚡ **Performance Optimized**
-
-- **~1.2s** dev server startup
-- **258KB** JS + **29.7KB** CSS (82KB + 6KB gzipped)
-- **95+** Lighthouse score
-- Zero-config HMR (Hot Module Replacement)
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Node.js** 16+
-- **npm** or **yarn**
-
-### Local Development
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Open browser at http://localhost:5173/
-```
-
-**Demo Credentials:**
-
-- Email: `analyst@soc.local`
-- Password: `password123`
-
-### Production Build
-
-```bash
-# Build optimized bundle
-npm run build
-
-# Preview production build locally
-npm run preview
-
-# Output is in dist/ folder (ready to deploy)
-```
-
-## 🌐 Deploy to the World
-
-### ⭐ Easiest Option: Vercel (1 Click)
-
-```bash
-# Step 1: Push to GitHub
-git init && git add . && git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/cyber-threat-monitor.git
-git push -u origin main
-
-# Step 2: Go to https://vercel.com
-# - Click "New Project"
-# - Import your GitHub repo
-# - Click "Deploy"
-# ✅ Done! Your app is live in 2 minutes
-```
-
-👉 **[See detailed deployment guides in DEPLOYMENT.md](./DEPLOYMENT.md)**
-
-### Other Options
-
-- **Netlify**: Connect GitHub repo → Auto-deploy
-- **GitHub Pages**: Free static hosting
-- **Docker**: Self-hosted deployment
-- **AWS/Google Cloud**: Enterprise deployment
-
-## 📁 Project Structure
+## Current Architecture
 
 ```text
-cyber-threat-monitor/
-├── src/
-│   ├── components/          # React components
-│   │   ├── dashboard/       # Dashboard widgets
-│   │   ├── layout/          # Layout components
-│   │   └── ui/              # Reusable UI elements
-│   ├── context/             # React Context (Auth, Theme)
-│   ├── pages/               # Page components
-│   ├── data/                # Mock data & constants
-│   ├── App.jsx              # Main app routing
-│   ├── main.jsx             # Entry point
-│   └── index.css            # Global styles
-├── public/                  # Static assets
-├── dist/                    # Production build
-├── package.json             # Dependencies
-├── vite.config.js           # Vite configuration
-├── eslint.config.js         # ESLint rules
-├── vercel.json              # Vercel deployment config
-├── netlify.toml             # Netlify deployment config
-└── .env.example             # Environment template
+Security Event
+      |
+      v
+FastAPI Event Ingestion
+      |
+      v
+Detection Engine
+      |
+      +---- DET-001: PowerShell Process Execution
+      |
+      +---- DET-002: Encoded PowerShell Command
+      |
+      v
+Security Alert
+      |
+      v
+Host-based Alert Correlation
+      |
+      v
+Security Incident
 ```
 
-## 📚 Available Scripts
+## Current Capabilities
 
-| Command | Purpose |
-| --------- | --------- |
-| `npm run dev` | Start dev server (HMR enabled) |
-| `npm run build` | Build production bundle |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
+### Backend
 
-## 🛠️ Tech Stack
+* FastAPI REST API
+* Security event ingestion
+* Security event retrieval
+* Detection rule management
+* Detection engine
+* PowerShell process detection
+* Encoded PowerShell command detection
+* MITRE ATT&CK technique mapping
+* Alert generation
+* Alert filtering by severity and status
+* Individual alert lookup
+* Alert status updates
+* Host-based alert correlation
+* Incident generation and lookup
+* API health endpoint
 
-| Technology | Version | Purpose |
-| ----------- | --------- | --------- |
-| **React** | 19.2.6 | UI framework |
-| **Vite** | 8.0.12 | Build tool & dev server |
-| **Tailwind CSS** | 4.3.0 | Styling & utilities |
-| **React Router** | 7.9.4 | Client-side routing |
-| **Lucide React** | 1.16.0 | Icon library |
-| **ESLint** | 10.3.0 | Code linting |
+### Detection Rules
 
-## 🎯 Customization
+| Rule    | Description                  | MITRE ATT&CK     |
+| ------- | ---------------------------- | ---------------- |
+| DET-001 | PowerShell process execution | T1059.001        |
+| DET-002 | Encoded PowerShell command   | T1059.001, T1027 |
 
-### Update Dashboard Data
+## API Surface
 
-Edit `src/data/mockData.js`:
+| Endpoint                           | Purpose                       |
+| ---------------------------------- | ----------------------------- |
+| `GET /api/health`                  | API health check              |
+| `POST /api/events`                 | Ingest a security event       |
+| `GET /api/events`                  | Retrieve events               |
+| `GET /api/events/alerts`           | Retrieve generated alerts     |
+| `GET /api/alerts`                  | List/filter alerts            |
+| `GET /api/alerts/{alert_id}`       | Retrieve an alert             |
+| `PATCH /api/alerts/{alert_id}`     | Update alert status           |
+| `GET /api/incidents`               | Generate correlated incidents |
+| `GET /api/incidents/{incident_id}` | Retrieve an incident          |
+| `GET /api/rules`                   | List detection rules          |
+| `GET /api/rules/{rule_id}`         | Retrieve a detection rule     |
 
-```javascript
-export const stats = [
-  { label: "Your Metric", value: "999", trend: "Your Trend", color: "text-cyan-300" }
-];
-```
+## Technology
 
-### Connect Real SIEM API
+### Backend
 
-Create `src/services/api.js`:
+* Python
+* FastAPI
+* Pydantic
+* Uvicorn
 
-```javascript
-export const fetchAlerts = async () => {
-  return fetch(`${process.env.VITE_API_URL}/alerts`).then(r => r.json());
-};
-```
+### Frontend
 
-### Change Branding
+* React
+* Vite
+* React Router
+* Tailwind CSS
+* Lucide React
 
-- Logo: Replace `public/favicon.svg`
-- Name: Update in `src/components/layout/Sidebar.jsx`
-- Colors: Modify `src/index.css` theme variables
+## Current Data Model
 
-### Add New Page
+The backend currently models:
 
-1. Create `src/pages/MyPage.jsx`
-2. Add route in `src/App.jsx`
-3. Add nav item in `src/data/mockData.js`
+* Security events
+* Detection rules
+* Security alerts
+* Security incidents
 
-## 📊 Performance Stats
+The current implementation keeps event and alert state in application memory. Restarting the API therefore clears the current runtime state.
+
+Persistent storage is intentionally deferred to the next milestone.
+
+## Current Limitations
+
+This release is a detection-engineering foundation, not a finished SIEM or XDR platform.
+
+The following capabilities are not yet implemented:
+
+* Persistent database storage
+* Durable alert and incident state
+* Real endpoint telemetry ingestion
+* Wazuh ingestion
+* Sysmon ingestion
+* Elasticsearch/OpenSearch integration
+* Production log pipelines
+* Production threat-intelligence feeds
+* Persistent analyst investigation history
+* Full frontend/API operational integration
+* Production-backed SOC metrics
+
+The frontend also contains interface/demo components that are not authoritative security telemetry. They must not be interpreted as measurements from a live production SOC.
+
+## Development Roadmap
+
+### v0.5.0 — Security Monitoring & Detection Foundation
+
+* Event ingestion
+* Detection engine
+* Detection rules
+* Alert generation
+* MITRE ATT&CK mapping
+* Alert management
+* Incident correlation
+
+### v0.6.0 — Persistence & Testing
+
+Planned:
+
+* SQLite persistence
+* Database models
+* Repository/service separation
+* Expanded backend and persistence tests
+* Detection regression coverage
+* Durable alert lifecycle
+* Durable incident lifecycle
+
+### v0.7.0 — Real Telemetry
+
+Planned:
+
+* One real telemetry source
+* Event normalization
+* Source metadata
+* Real event-to-alert evidence chain
+
+### v0.8.0 — Analyst Workflow
+
+Planned:
+
+* API-backed dashboard
+* Alert investigation
+* Incident investigation
+* Status lifecycle
+* Evidence views
+* Detection transparency
+
+### Future Direction
+
+The long-term objective is to connect real telemetry to a defensible detection and investigation workflow:
 
 ```text
-Bundle Size:    258 KB JS + 29.7 KB CSS
-Gzipped:        82 KB + 6 KB
-Build Time:     ~1.4 seconds
-Dev Startup:    ~1.2 seconds
-Modules:        1,766 transformed
-Lighthouse:     95+ score
-ESLint:         ✅ 0 errors
+Real Telemetry
+      |
+      v
+Ingestion
+      |
+      v
+Normalization
+      |
+      v
+Persistent Storage
+      |
+      v
+Detection Engineering
+      |
+      v
+Alert
+      |
+      v
+Incident Correlation
+      |
+      v
+Analyst Investigation
+      |
+      v
+Evidence / Decision
 ```
 
-## 🔒 Security
+## Running Locally
 
-### Production Checklist
+### Backend
 
-- [ ] Replace mock authentication with OAuth2/SAML
-- [ ] Add HTTPS enforcement
-- [ ] Implement API key management
-- [ ] Enable rate limiting
-- [ ] Add CORS configuration
-- [ ] Use environment variables for secrets
-- [ ] Add input validation & sanitization
-- [ ] Enable Content Security Policy (CSP)
-
-### Environment Variables
-
-```env
-VITE_API_URL=https://your-siem-api.example.com
-VITE_AUTH_PROVIDER=oauth2
-VITE_ENVIRONMENT=production
-```
-
-## 🌐 Browser Support
-
-| Browser | Version |
-| --------- | --------- |
-| Chrome | 90+ ✅ |
-| Edge | 90+ ✅ |
-| Firefox | 88+ ✅ |
-| Safari | 15+ ✅ |
-| Mobile Chrome | Latest ✅ |
-| Mobile Safari | Latest ✅ |
-
-## 🐛 Troubleshooting
-
-### Port 5173 Already in Use
+From the repository root:
 
 ```bash
-npx vite --port 3000
+cd backend
+python -m pip install -r requirements.txt
+uvicorn app.main:app --reload
 ```
 
-### Build Fails
+The API is available at:
 
-```bash
-rm -rf node_modules dist
-npm install
-npm run build
+```text
+http://127.0.0.1:8000
 ```
 
-### Module Not Found
+Health endpoint:
+
+```text
+http://127.0.0.1:8000/api/health
+```
+
+FastAPI documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+### Frontend
+
+From the repository root:
 
 ```bash
 npm install
 npm run dev
 ```
 
-## 📚 Documentation
+The development frontend normally runs at:
 
-- **[QUICK_DEPLOY.md](./QUICK_DEPLOY.md)** - One-page deploy guide
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Comprehensive deployment guide
-- **[.env.example](./.env.example)** - Environment variables template
+```text
+http://localhost:5173
+```
 
-## 🤝 Contributing
+## Engineering Principles
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+This project follows an evidence-first engineering approach:
 
-## 📄 License
+1. Study existing systems.
+2. Identify a concrete engineering gap.
+3. Define the smallest useful implementation.
+4. Build the implementation.
+5. Test it.
+6. Capture evidence.
+7. Document limitations.
+8. Expand only when the evidence justifies it.
 
-MIT License - See LICENSE file for details
+The goal is not to create a dashboard full of security terminology.
 
-## 🚀 Live Demo
+The goal is to build a system where:
 
-Check the deployment guides to get your own instance running!
+```text
+Event ID
+   ->
+Rule ID
+   ->
+Alert ID
+   ->
+Incident ID
+   ->
+Analyst action
+```
 
-👉 **[Go Live Now with QUICK_DEPLOY.md](./QUICK_DEPLOY.md)**
+can be traced and explained.
 
----
+## Security
 
-**Built with ❤️ for Security Teams** | [View Documentation](./DEPLOYMENT.md) | [Report Issues](https://github.com/YOUR_USERNAME/cyber-threat-monitor/issues)
+Cyber-Threat-Monitor is intended for:
+
+* security education
+* defensive security engineering
+* authorized testing
+* controlled laboratory environments
+
+Do not use this project to access systems, accounts, networks, or data without authorization.
+
+## License
+
+See `LICENSE` for the project source-available license and usage restrictions.
+
+## Project Status
+
+**Active development**
+
+Current focus:
+
+> Establish a reliable security monitoring and detection foundation before adding real telemetry and persistence.

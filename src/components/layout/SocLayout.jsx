@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import TopNavbar from "./TopNavbar";
 import Sidebar from "./Sidebar";
 import CyberBackground from "../ui/CyberBackground";
-import { navItems } from "../../data/mockData";
+import { navItems } from "../../data/navigation";
 import { useTheme } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 
