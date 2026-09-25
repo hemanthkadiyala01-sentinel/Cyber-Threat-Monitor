@@ -1,232 +1,194 @@
 # Cyber-Threat-Monitor
 
-Security monitoring and detection engineering platform built with React, Vite, FastAPI, and Python.
+Evidence-first security monitoring and detection engineering platform built with React, Vite, FastAPI, Python, and SQLite.
 
-> **Current milestone: v0.5.0 — Security Monitoring & Detection Foundation**
+> **Current milestone: v0.8.0 — Persistent Detection, Real Telemetry Ingestion & Analyst Workflow**
 
-Cyber-Threat-Monitor is being developed as a practical security engineering project focused on the path from security events to detections, alerts, incidents, and analyst investigation workflows.
+Cyber-Threat-Monitor is designed around a defensible security evidence chain rather than a dashboard full of simulated SOC metrics.
 
-The current release establishes the backend detection foundation. Real telemetry ingestion, persistent storage, and production-backed SOC dashboard metrics are planned for the next development phase.
-
-## Current Architecture
+## Architecture
 
 ```text
-Security Event
-      |
-      v
-FastAPI Event Ingestion
-      |
-      v
+Windows / Wazuh Telemetry
+          |
+          v
+Wazuh Normalization
+          |
+          v
+FastAPI Ingestion
+          |
+          v
+SQLite Persistence
+          |
+          v
 Detection Engine
-      |
-      +---- DET-001: PowerShell Process Execution
-      |
-      +---- DET-002: Encoded PowerShell Command
-      |
-      v
+          |
+          +---- DET-001 PowerShell
+          |
+          +---- DET-002 Encoded PowerShell
+          |
+          v
 Security Alert
-      |
-      v
-Host-based Alert Correlation
-      |
-      v
-Security Incident
+          |
+          v
+Host-based Incident Correlation
+          |
+          v
+Analyst Investigation
+          |
+          +---- status lifecycle
+          +---- evidence view
+          +---- analyst notes
 ```
 
-## Current Capabilities
-
-### Backend
-
-* FastAPI REST API
-* Security event ingestion
-* Security event retrieval
-* Detection rule management
-* Detection engine
-* PowerShell process detection
-* Encoded PowerShell command detection
-* MITRE ATT&CK technique mapping
-* Alert generation
-* Alert filtering by severity and status
-* Individual alert lookup
-* Alert status updates
-* Host-based alert correlation
-* Incident generation and lookup
-* API health endpoint
-
-### Detection Rules
-
-| Rule    | Description                  | MITRE ATT&CK     |
-| ------- | ---------------------------- | ---------------- |
-| DET-001 | PowerShell process execution | T1059.001        |
-| DET-002 | Encoded PowerShell command   | T1059.001, T1027 |
-
-## API Surface
-
-| Endpoint                           | Purpose                       |
-| ---------------------------------- | ----------------------------- |
-| `GET /api/health`                  | API health check              |
-| `POST /api/events`                 | Ingest a security event       |
-| `GET /api/events`                  | Retrieve events               |
-| `GET /api/events/alerts`           | Retrieve generated alerts     |
-| `GET /api/alerts`                  | List/filter alerts            |
-| `GET /api/alerts/{alert_id}`       | Retrieve an alert             |
-| `PATCH /api/alerts/{alert_id}`     | Update alert status           |
-| `GET /api/incidents`               | Generate correlated incidents |
-| `GET /api/incidents/{incident_id}` | Retrieve an incident          |
-| `GET /api/rules`                   | List detection rules          |
-| `GET /api/rules/{rule_id}`         | Retrieve a detection rule     |
-
-## Technology
-
-### Backend
-
-* Python
-* FastAPI
-* Pydantic
-* Uvicorn
-
-### Frontend
-
-* React
-* Vite
-* React Router
-* Tailwind CSS
-* Lucide React
-
-## Current Data Model
-
-The backend currently models:
-
-* Security events
-* Detection rules
-* Security alerts
-* Security incidents
-
-The current implementation keeps event and alert state in application memory. Restarting the API therefore clears the current runtime state.
-
-Persistent storage is intentionally deferred to the next milestone.
-
-## Current Limitations
-
-This release is a detection-engineering foundation, not a finished SIEM or XDR platform.
-
-The following capabilities are not yet implemented:
-
-* Persistent database storage
-* Durable alert and incident state
-* Real endpoint telemetry ingestion
-* Wazuh ingestion
-* Sysmon ingestion
-* Elasticsearch/OpenSearch integration
-* Production log pipelines
-* Production threat-intelligence feeds
-* Persistent analyst investigation history
-* Full frontend/API operational integration
-* Production-backed SOC metrics
-
-The frontend also contains interface/demo components that are not authoritative security telemetry. They must not be interpreted as measurements from a live production SOC.
-
-## Development Roadmap
-
-### v0.5.0 — Security Monitoring & Detection Foundation
-
-* Event ingestion
-* Detection engine
-* Detection rules
-* Alert generation
-* MITRE ATT&CK mapping
-* Alert management
-* Incident correlation
-
-### v0.6.0 — Persistence & Testing
-
-Planned:
-
-* SQLite persistence
-* Database models
-* Repository/service separation
-* Expanded backend and persistence tests
-* Detection regression coverage
-* Durable alert lifecycle
-* Durable incident lifecycle
-
-### v0.7.0 — Real Telemetry
-
-Planned:
-
-* One real telemetry source
-* Event normalization
-* Source metadata
-* Real event-to-alert evidence chain
-
-### v0.8.0 — Analyst Workflow
-
-Planned:
-
-* API-backed dashboard
-* Alert investigation
-* Incident investigation
-* Status lifecycle
-* Evidence views
-* Detection transparency
-
-### Future Direction
-
-The long-term objective is to connect real telemetry to a defensible detection and investigation workflow:
+The evidence chain is:
 
 ```text
-Real Telemetry
-      |
-      v
-Ingestion
-      |
-      v
-Normalization
-      |
-      v
-Persistent Storage
-      |
-      v
-Detection Engineering
-      |
-      v
-Alert
-      |
-      v
-Incident Correlation
-      |
-      v
-Analyst Investigation
-      |
-      v
-Evidence / Decision
+Source Event
+   ->
+Stored Event ID
+   ->
+Detection Rule ID
+   ->
+Alert ID
+   ->
+Incident ID
+   ->
+Analyst Action
 ```
 
-## Running Locally
+## Implemented in v0.8
+
+### Persistent storage
+
+SQLite now stores:
+
+* security events
+* detection alerts
+* incidents
+* alert-to-incident relationships
+* analyst actions
+
+The database survives API restarts.
+
+Set `CTM_DB_PATH` to control the database location. The default is `backend/data/cyber_threat_monitor.db`.
+
+### Detection
+
+Current rules:
+
+| Rule | Description | MITRE ATT&CK |
+| --- | --- | --- |
+| DET-001 | PowerShell process execution | T1059.001 |
+| DET-002 | Encoded PowerShell command | T1059.001, T1027 |
+
+### Wazuh ingestion
+
+`POST /api/ingest/wazuh` accepts Wazuh alert JSON and normalizes Windows process-creation events into the platform's `SecurityEvent` model.
+
+The included `backend/app/integrations/wazuh_forwarder.py` can follow Wazuh's `alerts.json` file and forward new alerts to the CTM API.
+
+Default Wazuh alert path:
+
+```text
+/var/ossec/logs/alerts/alerts.json
+```
+
+This should be verified against the actual Wazuh manager configuration before deployment.
+
+### Analyst workflow
+
+Alerts support:
+
+* open
+* acknowledged
+* resolved
+
+Incidents support:
+
+* open
+* investigating
+* contained
+* resolved
+* closed
+
+Analysts can record durable investigation notes against alerts and incidents.
+
+Evidence endpoints expose the relationship between:
+
+```text
+Incident -> Alerts -> Source Events -> Analyst Actions
+```
+
+### Dashboard
+
+Dashboard metrics are calculated from persisted backend state. The frontend no longer generates synthetic security events or fake alert counts.
+
+## API
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /api/health` | API health |
+| `GET /api/metrics` | Persisted SOC metrics |
+| `POST /api/events` | Ingest normalized security event |
+| `GET /api/events` | Retrieve stored events |
+| `GET /api/events/alerts` | Retrieve generated alerts |
+| `POST /api/ingest/wazuh` | Ingest a Wazuh alert |
+| `GET /api/alerts` | List/filter alerts |
+| `GET /api/alerts/{id}` | Retrieve an alert |
+| `PATCH /api/alerts/{id}` | Update alert status |
+| `GET /api/alerts/{id}/evidence` | Alert evidence chain |
+| `POST /api/alerts/{id}/actions` | Record analyst action |
+| `GET /api/incidents` | List incidents |
+| `GET /api/incidents/{id}` | Retrieve incident |
+| `PATCH /api/incidents/{id}` | Update incident status |
+| `GET /api/incidents/{id}/evidence` | Incident evidence |
+| `POST /api/incidents/{id}/actions` | Record analyst action |
+| `GET /api/rules` | List detection rules |
+| `GET /api/rules/{id}` | Retrieve a detection rule |
+
+## Testing
+
+Backend tests cover:
+
+* detection rule behavior
+* event API ingestion
+* SQLite persistence across module/database reload
+* durable analyst actions
+* alert and incident lifecycle state
+* Wazuh Windows process-event normalization
+
+Run:
+
+```bash
+python -m pytest backend/tests -v
+```
+
+Frontend:
+
+```bash
+npm run lint
+npm run build
+```
+
+## Running locally
 
 ### Backend
 
 From the repository root:
 
 ```bash
-cd backend
-python -m pip install -r requirements.txt
-uvicorn app.main:app --reload
+python -m pip install -r backend/requirements.txt
+uvicorn app.main:app --app-dir backend --reload
 ```
 
-The API is available at:
+API:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-Health endpoint:
-
-```text
-http://127.0.0.1:8000/api/health
-```
-
-FastAPI documentation:
+Swagger:
 
 ```text
 http://127.0.0.1:8000/docs
@@ -234,69 +196,66 @@ http://127.0.0.1:8000/docs
 
 ### Frontend
 
-From the repository root:
-
 ```bash
 npm install
 npm run dev
 ```
 
-The development frontend normally runs at:
+Frontend:
 
 ```text
 http://localhost:5173
 ```
 
-## Engineering Principles
+## Wazuh forwarding
 
-This project follows an evidence-first engineering approach:
-
-1. Study existing systems.
-2. Identify a concrete engineering gap.
-3. Define the smallest useful implementation.
-4. Build the implementation.
-5. Test it.
-6. Capture evidence.
-7. Document limitations.
-8. Expand only when the evidence justifies it.
-
-The goal is not to create a dashboard full of security terminology.
-
-The goal is to build a system where:
+On the Wazuh manager, configure the environment for the forwarder:
 
 ```text
-Event ID
-   ->
-Rule ID
-   ->
-Alert ID
-   ->
-Incident ID
-   ->
-Analyst action
+WAZUH_ALERTS_FILE=/var/ossec/logs/alerts/alerts.json
+CTM_API_URL=http://<ctm-host>:8000/api/ingest/wazuh
+WAZUH_INGEST_API_KEY=<same-key-used-by-ctm>
 ```
 
-can be traced and explained.
+Then run:
 
-## Security
+```bash
+python backend/app/integrations/wazuh_forwarder.py
+```
 
-Cyber-Threat-Monitor is intended for:
+For a local WSL lab, the network route between the Wazuh manager and the Windows-hosted FastAPI process must be verified. Do not assume `127.0.0.1` on WSL points to the Windows host.
 
-* security education
-* defensive security engineering
-* authorized testing
-* controlled laboratory environments
+## Validation sequence
 
-Do not use this project to access systems, accounts, networks, or data without authorization.
+A real validation should demonstrate:
 
-## License
+1. Windows endpoint generates telemetry.
+2. Wazuh receives the telemetry.
+3. Wazuh alert reaches `/api/ingest/wazuh`.
+4. CTM stores the normalized event in SQLite.
+5. Detection engine creates an alert.
+6. Alert is correlated into an incident.
+7. Dashboard reads persisted state.
+8. Analyst acknowledges/investigates the alert.
+9. Analyst records an evidence note.
+10. API restart does not erase the investigation.
 
-See `LICENSE` for the project source-available license and usage restrictions.
+## Scope and limitations
 
-## Project Status
+This is a defensive security engineering project for authorized laboratory environments.
 
-**Active development**
+It is not presented as a production SIEM/XDR platform. Production deployment would require additional controls such as authenticated users, stronger secret management, database migrations, concurrency hardening, queue-based ingestion, retention policies, audit integrity controls, TLS, observability, and deployment security.
 
-Current focus:
+The Wazuh adapter is implemented, but end-to-end real-telemetry validation depends on the user's live Wazuh/Windows environment and must be demonstrated there.
 
-> Establish a reliable security monitoring and detection foundation before adding real telemetry and persistence.
+## Engineering approach
+
+1. Study existing systems.
+2. Identify a concrete gap.
+3. Build the smallest useful implementation.
+4. Test it.
+5. Capture evidence.
+6. Document limitations.
+7. Expand only when evidence justifies it.
+
+No synthetic telemetry is presented as live security data.

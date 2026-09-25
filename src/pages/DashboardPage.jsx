@@ -3,25 +3,27 @@ import StatCard from "../components/dashboard/StatCard";
 import AlertPanel from "../components/dashboard/AlertPanel";
 import AnalyticsChart from "../components/dashboard/AnalyticsChart";
 import AttackVisualization from "../components/dashboard/AttackVisualization";
-import { getAlerts } from "../services/api";
+import { getAlerts, getMetrics } from "../services/api";
 
 export default function DashboardPage() {
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState("");
+  const [metrics, setMetrics] = useState(null);
 
   useEffect(() => {
     let mounted = true;
 
     async function loadAlerts() {
       try {
-        const data = await getAlerts();
+        const [data, metricData] = await Promise.all([getAlerts(), getMetrics()]);
 
         if (!mounted) {
           return;
         }
 
         setAlerts(Array.isArray(data) ? data : []);
+        setMetrics(metricData);
         setApiError("");
       } catch {
         if (!mounted) {
@@ -57,7 +59,7 @@ export default function DashboardPage() {
   const stats = [
     {
       label: "Alerts Received",
-      value: String(alerts.length),
+      value: String(metrics?.alerts ?? alerts.length),
       trend: "Current API state",
     },
     {
@@ -67,17 +69,13 @@ export default function DashboardPage() {
     },
     {
       label: "Open Alerts",
-      value: String(
-        alerts.filter(
-          (alert) => (alert.status || "open").toLowerCase() === "open"
-        ).length
-      ),
+      value: String(metrics?.open_alerts ?? 0),
       trend: "Current API state",
     },
     {
-      label: "Telemetry Status",
-      value: apiError ? "Offline" : loading ? "Loading" : "Connected",
-      trend: "FastAPI backend",
+      label: "Open Incidents",
+      value: String(metrics?.open_incidents ?? 0),
+      trend: "Persisted incident state",
     },
   ];
 
@@ -111,8 +109,7 @@ export default function DashboardPage() {
         </h1>
 
         <p className="mt-2 max-w-3xl text-sm text-slate-300">
-          Monitor security events and detection alerts from the Cyber-Threat-Monitor
-          backend.
+          Monitor persisted security events, detections, and analyst-managed incidents.
         </p>
       </header>
 
